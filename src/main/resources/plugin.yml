@@ -1,0 +1,17 @@
+name: CursedCape
+version: 1.0.0
+main: me.cursedspider.cursedcape.CursedCape
+api-version: '26.2'
+author: CursedSpider
+description: Custom server-side cape system
+
+commands:
+  cape:
+    description: Manage your custom cape
+    usage: /cape <set|remove|reload>
+    permission: cursedcape.use
+
+permissions:
+  cursedcape.use:
+    description: Allows use of CursedCape commands
+    default: op
