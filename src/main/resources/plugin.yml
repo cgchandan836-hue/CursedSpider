@@ -8,7 +8,7 @@ description: Custom server-side cape system
 commands:
   cape:
     description: Manage your custom cape
-    usage: /cape <set|remove|reload>
+    usage: /cape <url|remove|reload> [URL]
     permission: cursedcape.use
 
 permissions:
