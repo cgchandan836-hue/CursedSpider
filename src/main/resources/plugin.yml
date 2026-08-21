@@ -5,10 +5,13 @@ api-version: '26.2'
 author: CursedSpider
 description: Custom server-side cape system
 
+depend:
+  - packetevents
+
 commands:
   cape:
     description: Manage your custom cape
-    usage: /cape <url|remove|reload> [URL]
+    usage: /cape set <URL> | /cape remove
     permission: cursedcape.use
 
 permissions:
