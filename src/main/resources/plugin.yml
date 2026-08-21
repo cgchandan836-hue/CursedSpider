@@ -18,3 +18,5 @@ permissions:
   cursedcape.use:
     description: Allows use of CursedCape commands
     default: op
+
+    
