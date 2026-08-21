@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
-    compileOnly("com.github.retrooper:packetevents-spigot:2.12.0")
+    compileOnly("com.github.retrooper:packetevents-spigot:2.13.0")
 }
 
 java {
