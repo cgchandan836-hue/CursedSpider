@@ -30,3 +30,4 @@ tasks.jar {
     archiveBaseName.set("CursedCape")
 }
 
+
