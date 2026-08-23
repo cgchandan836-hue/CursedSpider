@@ -1,5 +1,7 @@
 package me.cursedspider.cursedcape;
 
+import io.papermc.paper.datacomponent.item.ResolvableProfile;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,13 +35,11 @@ public class CursedCape extends JavaPlugin {
 
             if (args[0].equalsIgnoreCase("set")) {
                 applyCape(player);
-                player.sendMessage("§aCursedSpider Cape equipped! §7🕷");
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("remove")) {
                 removeCape(player);
-                player.sendMessage("§aCursedSpider Cape removed.");
                 return true;
             }
 
@@ -54,21 +54,37 @@ public class CursedCape extends JavaPlugin {
     private void applyCape(Player player) {
         PlayerProfile profile = player.getPlayerProfile();
 
-        var patch = profile.getSkinPatch();
-        patch.setCapeTexturePatch(capeKey);
-        profile.setSkinPatch(patch);
+        ResolvableProfile patched = ResolvableProfile.resolvableProfile()
+                .uuid(profile.getId())
+                .name(profile.getName())
+                .addProperties(profile.getProperties())
+                .skinPatch(patch -> patch.cape(capeKey))
+                .build();
 
-        player.setPlayerProfile(profile);
+        patched.resolve().thenAcceptAsync(updatedProfile ->
+                Bukkit.getScheduler().runTask(this, () -> {
+                    player.setPlayerProfile(updatedProfile);
+                    player.sendMessage("§aCursedSpider Cape equipped! §7🕷");
+                })
+        );
     }
 
     private void removeCape(Player player) {
         PlayerProfile profile = player.getPlayerProfile();
 
-        var patch = profile.getSkinPatch();
-        patch.setCapeTexturePatch(null);
-        profile.setSkinPatch(patch);
+        ResolvableProfile patched = ResolvableProfile.resolvableProfile()
+                .uuid(profile.getId())
+                .name(profile.getName())
+                .addProperties(profile.getProperties())
+                .skinPatch(patch -> patch.cape(null))
+                .build();
 
-        player.setPlayerProfile(profile);
+        patched.resolve().thenAcceptAsync(updatedProfile ->
+                Bukkit.getScheduler().runTask(this, () -> {
+                    player.setPlayerProfile(updatedProfile);
+                    player.sendMessage("§aCursedSpider Cape removed.");
+                })
+        );
     }
 
     @Override
